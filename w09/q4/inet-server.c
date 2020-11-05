@@ -24,6 +24,8 @@ int main(void){
 		perror("bind"); exit(1);
 	}
 
+	printf("Wait....\n");
+
 	if(listen(sd,10)){
 		perror("listen"); exit(1);
 	}
@@ -31,6 +33,8 @@ int main(void){
 	if((ns = accept(sd, (struct sockaddr *)&cli, &clientlen)) ==-1){
 		perror("accept"); exit(1);
 	}
+
+	printf("Connect Success!\n\n");
 	
 	while(1){
 	

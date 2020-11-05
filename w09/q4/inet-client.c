@@ -32,9 +32,8 @@ int main(void){
 	}
 
 	while(1){	
-		printw("to Msg : ");
+		printw("Client : ");
 		scanw("%s",buf);
-
 
 		if(send(sd, buf, strlen(buf) +1,0) == -1){
 			perror("send"); exit(1);
@@ -48,7 +47,7 @@ int main(void){
 			perror("recv"); exit(1);
 		}
 	
-		printw("Msg : %s\n", buf);
+		printw("Server : %s\n", buf);
 
 		refresh();
 	}
