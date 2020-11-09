@@ -87,6 +87,7 @@ int main(int argc, char *argv[]){
 			printf("SINFO REQUEST\n");
 			switch(fork()){
 				case 0:
+					close(sd);
 					gethostname(host,128);
 					sprintf(buf,"Host Name : %s\nPort : %d\nIP : %s\n"
 						,host,ntohs(sin.sin_port),inet_ntoa(sin.sin_addr));
@@ -103,6 +104,7 @@ int main(int argc, char *argv[]){
 			printf("STIME REQUEST\n");
 			switch(fork()){
 				case 0:
+					close(sd);
 					time(&t);
 					sprintf(buf,"%s",ctime(&t));
 	
