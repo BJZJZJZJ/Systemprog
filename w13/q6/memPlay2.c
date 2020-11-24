@@ -40,7 +40,7 @@ int main(int argc, char* argv[]){
 		case 0 :
 			for (i = 0 ; i < 100 ; i++){
 				addr[(i % 50)] = 'c';				
-				usleep(100000);
+				sleep(1);
 			}
 			break;
 
@@ -49,7 +49,7 @@ int main(int argc, char* argv[]){
 			for (i = 0 ; i < 100 ; i++){
 				random = (rand() % 100);
 				addr[random] = 'p';
-				usleep(100000);
+				sleep(1);
 			}
 			wait(&status);
 			printf("match ends\n");

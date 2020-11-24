@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
+#include <unistd.h>
 
 int main(){
 	int opd, wpd, n;
@@ -34,12 +35,14 @@ int main(){
 
 	strcat(download,filename);
 
-	read(opd, buf, 128);
-	if(strstr(buf,"<ERROR>") == NULL){
+	read(opd, buf, strlen(buf)+1);
+
+	if(strcmp(buf,"<ERROR>") != 0){
 		if((wpd = open(download, O_CREAT | O_TRUNC | O_WRONLY, 0644)) == -1){
 			perror("open"); close(opd); exit(1);
 		}
-		write(wpd, buf, strlen(buf));
+
+		write(wpd, buf, strlen(buf)+1);
 		close(wpd);
 	}
 	else{

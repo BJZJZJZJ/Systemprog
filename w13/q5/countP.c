@@ -6,12 +6,17 @@
 #include <unistd.h>
 
 
-int main(){
+int main(int argc , char *argv[]){
 	int fd, i;
 	int c=0, p=0;
 	char buf[101];
 
-	if((fd = open("game.txt", O_RDWR)) == -1){
+	if (argc != 2){
+		fprintf(stderr, "Usage : %s filename\n", argv[0]);
+		exit(1);
+	}
+
+	if((fd = open(argv[1], O_RDWR)) == -1){
 		perror("open"); exit(1);
 	}
 

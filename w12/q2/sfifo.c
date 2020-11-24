@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
+#include <unistd.h>
 
 int main(){
 	int opd, wpd, n;
@@ -29,23 +30,30 @@ int main(){
 		perror("open");
 		exit(1);
 	}
+	printf("-----------\n");
 
-	printf("%s\n",buf);
+	if((access( buf, F_OK)) != -1){
+		if((opd = open(buf,O_RDONLY)) == -1){
+			perror("open"); exit(1);
+		}
+	
+		n = read(opd, buf, 128);
+		buf[n]='\0';
 
-	if((opd = open(buf,O_RDONLY)) == -1){
-		write(wpd,"<ERROR> No such file\n");
+		printf("File Send to Client\n");
+		printf("%d\n",(int)strlen(buf));
+		write(wpd, buf, strlen(buf));
+
+		close(opd);
+	}
+	else {
+		printf("Error Send\n");
+		write(wpd,"<ERROR>",8); 
 		close(wpd);
-		perror("open"); exit(1);
+		exit(1);
 	}
 
-	n = read(opd, buf, sizeof(buf));
-	buf[n]='\0';
-	printf("%s\n",buf);
-	write(wpd, buf, 128);
-
 	close(wpd);
-	close(opd);
-
 
 	return 0;
 }

@@ -14,11 +14,16 @@ int main(int argc, char* argv[]){
 	struct stat statbuf;
 	int random, i;
 
-	if (stat("game.txt", &statbuf) == -1){
+	if (argc != 2){
+		fprintf(stderr, "Usage : %s filename\n", argv[0]);
+		exit(1);
+	}
+
+	if (stat(argv[1], &statbuf) == -1){
 		perror("stat"); exit(1);
 	}
 
-	if ((fd = open("game.txt", O_RDWR)) == -1){
+	if ((fd = open(argv[1], O_RDWR)) == -1){
 		perror("open"); exit(1);
 	}
 
@@ -42,7 +47,6 @@ int main(int argc, char* argv[]){
 			for (i = 0 ; i < 100 ; i++){
 				random = (rand() % 100);
 				addr[random] = 'c';
-				printf("Child Attack! : %d\n",random);
 				sleep(1);
 			}
 			break;
@@ -52,10 +56,10 @@ int main(int argc, char* argv[]){
 			for (i = 0 ; i < 100 ; i++){
 				random = (rand() % 100);
 				addr[random] = 'p';
-				printf("Parent Attack! : %d\n",random);
 				sleep(1);
 			}
 			wait(&status);
+			printf("Match End!\n");
 			break;
 	}
 
